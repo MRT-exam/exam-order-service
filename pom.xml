@@ -58,6 +58,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>mtgo-order-service</finalName>
 	</build>
 
 </project>
