@@ -19,5 +19,5 @@ public class OrderRequestDto {
     private LocalDateTime orderDateTime;
     private List<OrderLineDto> orderLineDtoList;
     private String comment;
-    private UserInfoDto userInfoDto;
+    private CustomerInfoDto customerInfoDto;
 }

@@ -10,16 +10,17 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "user_info")
-public class UserInfo {
+public class CustomerInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
+    private int userId;
     private String firstName;
     private String lastName;
     private int phone;
     private String address;
-    @OneToOne(mappedBy = "userInfo")
+    // TODO: Change relationship
+    @OneToOne(mappedBy = "customerInfo")
     private Order order;
-
 }

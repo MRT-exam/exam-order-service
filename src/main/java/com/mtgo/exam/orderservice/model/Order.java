@@ -33,5 +33,5 @@ public class Order {
     private String comment;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_info_id", referencedColumnName = "id")
-    private UserInfo userInfo;
+    private CustomerInfo customerInfo;
 }
