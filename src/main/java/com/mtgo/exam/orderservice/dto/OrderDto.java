@@ -1,25 +1,22 @@
-package com.mtgo.exam.orderservice.model;
+package com.mtgo.exam.orderservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Builder
-@Entity
-@Table(name = "order")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+@Data
+public class OrderDto {
     private int id;
     private String orderNumber;
     private OrderStatus status;
@@ -28,11 +25,8 @@ public class Order {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
     private LocalDateTime orderDateTime;
     private String restaurantId;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderLine> orderLines;
-    private BigDecimal totalPrice;
+    private List<OrderLineDto> orderLineDtoList;
+    private int totalPrice;
     private String comment;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_info_id", referencedColumnName = "id")
-    private CustomerInfo customerInfo;
+    private CustomerInfoDto customerInfoDto;
 }
