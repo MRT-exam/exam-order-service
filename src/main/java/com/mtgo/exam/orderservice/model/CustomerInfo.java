@@ -9,18 +9,18 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "user_info")
+@Table(name = "customer_info")
 public class CustomerInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "customer_info_id")
     private int id;
     private int userId;
     private String firstName;
     private String lastName;
     private int phone;
     private String address;
-    // TODO: Change relationship
+    // TODO: Maybe Change relationship
     @OneToOne(mappedBy = "customerInfo")
     private Order order;
 }

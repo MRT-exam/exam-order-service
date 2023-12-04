@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class OrderDto {
     private LocalDateTime orderDateTime;
     private String restaurantId;
     private List<OrderLineDto> orderLineDtoList;
-    private int totalPrice;
+    private BigDecimal totalPrice;
     private String comment;
     private CustomerInfoDto customerInfoDto;
 }

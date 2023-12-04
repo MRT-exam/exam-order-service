@@ -16,13 +16,15 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private int id;
     private String orderNumber;
     private OrderStatus status;
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
@@ -32,7 +34,7 @@ public class Order {
     private List<OrderLine> orderLines;
     private BigDecimal totalPrice;
     private String comment;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_info_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_info_id", referencedColumnName = "customer_info_id")
     private CustomerInfo customerInfo;
 }

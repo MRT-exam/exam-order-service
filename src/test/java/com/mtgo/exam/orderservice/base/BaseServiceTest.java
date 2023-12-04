@@ -36,7 +36,7 @@ public abstract class BaseServiceTest extends BaseRepositoryTest{
 
         return new OrderRequestDto().builder()
                 .restaurantId("restaurant1")
-                .orderDateTime(LocalDateTime.of(2023, 12, 3, 16, 11))
+                //.orderDateTime(LocalDateTime.of(2023, 12, 3, 16, 11))
                 .orderLineDtoList(orderLineDtoList)
                 .comment("testComment")
                 .customerInfoDto(customerInfoDto)

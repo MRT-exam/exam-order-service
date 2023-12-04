@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 public class OrderLine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_line_id")
     private int id;
     private String itemId;
     private String itemName;

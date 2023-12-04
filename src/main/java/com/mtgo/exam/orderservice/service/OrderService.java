@@ -36,6 +36,7 @@ public class OrderService implements IOrderService{
                         .map(this::mapOrderLineFromDto)
                         .toList();
         CustomerInfo customerInfo = this.mapCustomerInfoFromDto(orderRequestDto.getCustomerInfoDto());
+
         order.setOrderNumber(UUID.randomUUID().toString());
         order.setStatus(OrderStatus.PENDING);
         order.setOrderDateTime(orderRequestDto.getOrderDateTime());
@@ -45,11 +46,10 @@ public class OrderService implements IOrderService{
         order.setComment(orderRequestDto.getComment());
         order.setCustomerInfo(customerInfo);
 
-        orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
-
-
-        return null;
+        OrderDto orderDto = this.mapOrderToDto(savedOrder);
+        return orderDto;
     }
 
     private BigDecimal calcTotalPrice(List<OrderLine> orderLines) {
@@ -69,6 +69,15 @@ public class OrderService implements IOrderService{
         return orderLine;
     }
 
+    private OrderLineDto mapOrderLineToDto(OrderLine orderLine) {
+        OrderLineDto orderLineDto = new OrderLineDto();
+        orderLine.setItemId(orderLine.getItemId());
+        orderLineDto.setItemName(orderLine.getItemName());
+        orderLineDto.setPrice(orderLine.getPrice());
+        orderLineDto.setQuantity(orderLine.getQuantity());
+        return orderLineDto;
+    }
+
     private CustomerInfo mapCustomerInfoFromDto(CustomerInfoDto customerInfoDto) {
         CustomerInfo customerInfo = new CustomerInfo();
         customerInfo.setFirstName(customerInfoDto.getFirstName());
@@ -78,13 +87,33 @@ public class OrderService implements IOrderService{
         return customerInfo;
     }
 
-    private OrderDto mapOrderDtoToEntity(Order order) {
+    private CustomerInfoDto mapCustomerInfoToDto(CustomerInfo customerInfo) {
+        CustomerInfoDto customerInfoDto = new CustomerInfoDto();
+        customerInfoDto.setFirstName(customerInfo.getFirstName());
+        customerInfoDto.setLastName(customerInfo.getLastName());
+        customerInfoDto.setPhone(customerInfo.getPhone());
+        customerInfoDto.setAddress(customerInfo.getAddress());
+        return customerInfoDto;
+    }
+
+    private OrderDto mapOrderToDto(Order order) {
         OrderDto orderDto = new OrderDto();
+
+        List<OrderLineDto> orderLineDtoList = order.getOrderLines()
+                .stream()
+                .map(this::mapOrderLineToDto)
+                .toList();
+        CustomerInfoDto customerInfoDto = this.mapCustomerInfoToDto(order.getCustomerInfo());
+
         orderDto.setId(order.getId());
         orderDto.setOrderNumber(order.getOrderNumber());
         orderDto.setStatus(order.getStatus());
         orderDto.setOrderDateTime(order.getOrderDateTime());
-
+        orderDto.setOrderLineDtoList(orderLineDtoList);
+        orderDto.setTotalPrice(this.calcTotalPrice(order.getOrderLines()));
+        orderDto.setComment(order.getComment());
+        orderDto.setCustomerInfoDto(customerInfoDto);
+        return orderDto;
     }
 
 }
