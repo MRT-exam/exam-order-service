@@ -15,22 +15,22 @@ services:
     networks:
       - order-service-net
 
-#  order-service-app:
-#    container_name: order-service-app
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    restart: unless-stopped
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      MYSQL_HOST: mysqldb
-#      MYSQL_USER: admin
-#      MYSQL_PASSWORD: admin1234
-#    networks:
-#      - order-service-net
-#    depends_on:
-#      - mysqldb
+  order-service-app:
+    container_name: order-service-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+    networks:
+      - order-service-net
+    depends_on:
+      - mysqldb
 
 networks:
   order-service-net:
