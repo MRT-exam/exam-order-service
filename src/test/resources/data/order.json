@@ -1,0 +1,25 @@
+{
+  "id": 1,
+  "orderNumber": "b74a38e6-8541-40e5-aa2a-705c8dff1fb1",
+  "status": "PENDING",
+  "orderDateTime": "2023-12-04-15:30",
+  "restaurantId": "restaurant1",
+  "orderLines": [
+    {
+      "id":1,
+      "itemId": "mongoDbItemId",
+      "itemName": "Kage",
+      "price": 200.00,
+      "quantity" : 3
+    }
+  ],
+  "totalPrice": 600.00,
+  "comment": "Uden birkes",
+  "customerInfo": {
+    "userId": 1,
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "phone": 43547690,
+    "address": "Elm Street 4"
+  }
+}

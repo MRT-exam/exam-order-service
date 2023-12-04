@@ -2,6 +2,7 @@ package com.mtgo.exam.orderservice.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
+import com.mtgo.exam.orderservice.utils.OrderStatusConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,8 +24,8 @@ public class Order {
     @Column(name = "order_id")
     private int id;
     private String orderNumber;
+    @Convert(converter = OrderStatusConverter.class)
     private OrderStatus status;
-
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")

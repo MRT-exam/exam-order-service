@@ -1,15 +1,23 @@
 package com.mtgo.exam.orderservice.enums;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum OrderStatus {
-    PENDING("PEN"),
-    ACCEPTED("ACC"),
-    CANCELLED("CANC"),
-    CLAIMED("CLAIM"),
-    DELIVERED("DELIV");
+    @JsonProperty("PENDING")
+    PENDING("PENDING"),
+    @JsonProperty("ACCEPTED")
+    ACCEPTED("ACCEPTED"),
+    @JsonProperty("CANCELLED")
+    CANCELLED("CANCELLED"),
+    @JsonProperty("CLAIMED")
+    CLAIMED("CLAIMED"),
+    @JsonProperty("DELIVERED")
+    DELIVERED("DELIVERED");
 
     private String code;
 
-    private OrderStatus(String code) {
+    OrderStatus(String code) {
         this.code = code;
     }
 

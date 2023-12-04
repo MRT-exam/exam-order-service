@@ -31,10 +31,12 @@ public class OrderService implements IOrderService{
     @Override
     public OrderDto createOrder(OrderRequestDto orderRequestDto) {
         Order order = new Order();
+
         List<OrderLine> orderLines = orderRequestDto.getOrderLineDtoList()
                         .stream()
                         .map(this::mapOrderLineFromDto)
                         .toList();
+
         CustomerInfo customerInfo = this.mapCustomerInfoFromDto(orderRequestDto.getCustomerInfoDto());
 
         order.setOrderNumber(UUID.randomUUID().toString());
