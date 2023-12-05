@@ -5,6 +5,7 @@ import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final RabbitTemplate rabbitTemplate;
+
     @PostMapping("/new")
     public OrderDto placeOrder(OrderRequestDto orderRequestDto) {
-        return orderService.createOrder(orderRequestDto);
+        OrderDto orderDto = orderService.createOrder(orderRequestDto);
+        rabbitTemplate.convertAndSend("", "order-submission", orderDto);
+        return orderDto;
     }
 }

@@ -49,6 +49,7 @@ class OrderServiceTest {
 
     @BeforeEach
     public void setup() {
+        // TODO: Refactor to custom class
         try {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDateTime.class, (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext) -> {
