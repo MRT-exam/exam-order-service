@@ -17,6 +17,14 @@
 		<java.version>17</java.version>
 		<cucumber.version>7.13.0</cucumber.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<active.profile>dev</active.profile>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
