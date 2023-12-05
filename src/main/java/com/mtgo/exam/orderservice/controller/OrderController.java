@@ -1,5 +1,6 @@
 package com.mtgo.exam.orderservice.controller;
 
+import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.service.OrderService;
@@ -16,7 +17,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/new")
-    public Order placeOrder(OrderRequestDto orderRequestDto) {
-        return null;
+    public OrderDto placeOrder(OrderRequestDto orderRequestDto) {
+        return orderService.createOrder(orderRequestDto);
     }
 }
