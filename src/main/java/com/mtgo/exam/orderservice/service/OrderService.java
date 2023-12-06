@@ -57,7 +57,7 @@ public class OrderService implements IOrderService{
     private BigDecimal calcTotalPrice(List<OrderLine> orderLines) {
         BigDecimal total = new BigDecimal(0);
         for (OrderLine o: orderLines) {
-            total.add(o.getPrice().multiply(BigDecimal.valueOf(o.getQuantity())));
+            total = total.add(o.getPrice().multiply(BigDecimal.valueOf(o.getQuantity())));
         }
         return total;
     }
