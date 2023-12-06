@@ -1,4 +1,4 @@
-package com.mtgo.exam.orderservice.unit.service;
+package com.mtgo.exam.orderservice.unit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
