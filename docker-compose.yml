@@ -7,6 +7,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - order-service-net
 
   mysqldb:
     container_name: mysqldb
@@ -35,10 +37,11 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin1234
       SPRING_PROFILES_ACTIVE: dev
+      SPRING_RABBITMQ_HOST: rabbitmq  # Add this line to specify RabbitMQ host
+      SPRING_RABBITMQ_PORT: 5672
     networks:
       - order-service-net
-    depends_on:
-      - mysqldb
+
 
 networks:
   order-service-net:

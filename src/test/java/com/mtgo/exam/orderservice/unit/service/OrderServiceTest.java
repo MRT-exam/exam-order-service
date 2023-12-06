@@ -77,6 +77,7 @@ class OrderServiceTest {
                 .build()
         );
 
+
         customerInfoDto = customerInfoDto.builder()
                 .userId(1)
                 .firstName("Jane")
@@ -95,11 +96,13 @@ class OrderServiceTest {
                 .comment("Uden birkes")
                 .customerInfoDto(customerInfoDto)
                 .build();
-
+        System.out.println(order.getRestaurantId());
         when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
 
         OrderDto savedOrder = orderService.createOrder(orderRequestDto);
         Assertions.assertThat(savedOrder).isNotNull();
+        //Assertions.assertThat(savedOrder.getTotalPrice()).isEqualTo(new BigDecimal(600.00));
+        //Assertions.assertThat(savedOrder.getRestaurantId()).isEqualTo(orderRequestDto.getRestaurantId());
         Assertions.assertThat(savedOrder.getId()).isEqualTo(1);
         Assertions.assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING);
     }

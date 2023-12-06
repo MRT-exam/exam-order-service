@@ -7,14 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class OrderRequestDto {
+public class OrderRequestDto implements Serializable {
     private String restaurantId;
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
@@ -22,4 +24,6 @@ public class OrderRequestDto {
     private List<OrderLineDto> orderLineDtoList;
     private String comment;
     private CustomerInfoDto customerInfoDto;
+
 }
+

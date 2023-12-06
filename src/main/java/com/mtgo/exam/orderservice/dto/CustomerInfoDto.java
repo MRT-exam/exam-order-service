@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class CustomerInfoDto {
+public class CustomerInfoDto implements Serializable {
     private int userId;
     private String firstName;
     private String lastName;

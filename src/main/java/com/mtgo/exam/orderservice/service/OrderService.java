@@ -73,7 +73,7 @@ public class OrderService implements IOrderService{
 
     private OrderLineDto mapOrderLineToDto(OrderLine orderLine) {
         OrderLineDto orderLineDto = new OrderLineDto();
-        orderLine.setItemId(orderLine.getItemId());
+        orderLineDto.setItemId(orderLine.getItemId());
         orderLineDto.setItemName(orderLine.getItemName());
         orderLineDto.setPrice(orderLine.getPrice());
         orderLineDto.setQuantity(orderLine.getQuantity());
@@ -115,6 +115,10 @@ public class OrderService implements IOrderService{
         orderDto.setTotalPrice(this.calcTotalPrice(order.getOrderLines()));
         orderDto.setComment(order.getComment());
         orderDto.setCustomerInfoDto(customerInfoDto);
+        orderDto.setRestaurantId(order.getRestaurantId());
+
+
+
         return orderDto;
     }
 
