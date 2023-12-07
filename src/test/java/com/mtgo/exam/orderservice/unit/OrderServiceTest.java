@@ -102,7 +102,7 @@ class OrderServiceTest {
         List<Order> orders = new ArrayList<>();
         orders.add(order);
         when(orderRepository.findByRestaurantIdAndStatus(order.getRestaurantId(), order.getStatus())).thenReturn(orders);
-        List<Order> actualList = orderService.getOrdersByStatus("restaurant1", OrderStatus.PENDING);
+        List<OrderDto> actualList = orderService.getOrdersByStatus("restaurant1", OrderStatus.PENDING);
         Assertions.assertThat(actualList.get(0).getOrderNumber()).isEqualTo(order.getOrderNumber());
     }
 
