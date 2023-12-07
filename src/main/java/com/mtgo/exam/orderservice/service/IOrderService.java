@@ -10,7 +10,7 @@ import java.util.List;
 public interface IOrderService {
     public List<Order> getOrdersByStatus(String restaurantId, OrderStatus status);
 
-    public void updateOrderByStatus(int orderId, OrderStatus status);
+    public void updateOrderStatus(int orderId, OrderStatus status);
 
     public OrderDto createOrder(OrderRequestDto orderRequestDto);
 

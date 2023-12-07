@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
@@ -80,7 +81,7 @@ class OrderServiceTest {
                 .comment("Uden birkes")
                 .customerInfoDto(customerInfoDto)
                 .build();
-        System.out.println(order.getRestaurantId());
+
         when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
 
         OrderDto savedOrder = orderService.createOrder(orderRequestDto);
@@ -95,6 +96,20 @@ class OrderServiceTest {
         BigDecimal actual = (BigDecimal) getCalcTotalPriceMethod().invoke(orderService, orderLines);
         BigDecimal expected = new BigDecimal(600.00).setScale(2);
         Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test void getOrdersByStatus() {
+        List<Order> orders = new ArrayList<>();
+        orders.add(order);
+        when(orderRepository.findByRestaurantIdAndStatus(order.getRestaurantId(), order.getStatus())).thenReturn(orders);
+        List<Order> actualList = orderService.getOrdersByStatus("restaurant1", OrderStatus.PENDING);
+        Assertions.assertThat(actualList.get(0).getOrderNumber()).isEqualTo(order.getOrderNumber());
+    }
+
+    @Test void updateOrderByStatus() {
+        when(orderRepository.findById(order.getId())).thenReturn(Optional.ofNullable(order));
+        orderService.updateOrderStatus(order.getId(), OrderStatus.ACCEPTED);
+        Assertions.assertThat(order.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
     }
 
     private Method getCalcTotalPriceMethod() throws NoSuchMethodException {

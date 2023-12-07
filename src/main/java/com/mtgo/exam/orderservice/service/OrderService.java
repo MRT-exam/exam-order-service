@@ -30,7 +30,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public void updateOrderByStatus(int orderId, OrderStatus orderStatus){
+    public void updateOrderStatus(int orderId, OrderStatus orderStatus){
         Order order = orderRepository.findById(orderId).get();
         order.setStatus(orderStatus);
         orderRepository.save(order);
