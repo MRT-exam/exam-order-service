@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -107,7 +108,7 @@ class OrderServiceTest {
     }
 
     @Test void updateOrderByStatus() {
-        when(orderRepository.findById(order.getId())).thenReturn(Optional.ofNullable(order));
+        doReturn(Optional.of(order)).when(orderRepository).findById(order.getId());
         orderService.updateOrderStatus(order.getId(), OrderStatus.ACCEPTED);
         Assertions.assertThat(order.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
     }

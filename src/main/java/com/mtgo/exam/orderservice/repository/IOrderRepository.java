@@ -12,5 +12,4 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findByRestaurantIdAndStatus(String restaurantId, OrderStatus orderStatus);
 
-    Order findByRestaurantId(String restaurantId);
 }

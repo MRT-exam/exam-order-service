@@ -113,6 +113,7 @@ public class OrderService implements IOrderService{
                 .stream()
                 .map(this::mapOrderLineToDto)
                 .toList();
+
         CustomerInfoDto customerInfoDto = this.mapCustomerInfoToDto(order.getCustomerInfo());
 
         orderDto.setId(order.getId());
