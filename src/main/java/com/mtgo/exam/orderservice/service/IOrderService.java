@@ -8,7 +8,9 @@ import com.mtgo.exam.orderservice.model.Order;
 import java.util.List;
 
 public interface IOrderService {
-    public List<Order> getOrdersByStatus(OrderStatus status);
+    public List<Order> getOrdersByStatus(String restaurantId, OrderStatus status);
+
+    public void updateOrderByStatus(int orderId, OrderStatus status);
 
     public OrderDto createOrder(OrderRequestDto orderRequestDto);
 

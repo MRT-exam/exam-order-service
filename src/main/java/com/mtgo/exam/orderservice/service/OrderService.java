@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -23,9 +24,16 @@ import java.util.UUID;
 public class OrderService implements IOrderService{
 
     private final IOrderRepository orderRepository;
+    public List<Order> getOrdersByStatus(String restaurantId, OrderStatus status) {
+        List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
+        return orders;
+    }
+
     @Override
-    public List<Order> getOrdersByStatus(OrderStatus status) {
-        return null;
+    public void updateOrderByStatus(int orderId, OrderStatus orderStatus){
+        Order order = orderRepository.findById(orderId).get();
+        order.setStatus(orderStatus);
+        orderRepository.save(order);
     }
 
     @Override
