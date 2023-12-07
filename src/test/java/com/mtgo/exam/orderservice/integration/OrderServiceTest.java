@@ -69,6 +69,14 @@ class OrderServiceTest {
                 .phone(43547690)
                 .address("Elm Street 4")
                 .build();
+
+        orderRequestDto = OrderRequestDto.builder()
+                .restaurantId("restaurant1")
+                .orderDateTime(LocalDateTime.of(2023,12,5,14,18))
+                .orderLineDtoList(orderLineDtoList)
+                .comment("Uden birkes")
+                .customerInfoDto(customerInfoDto)
+                .build();
     }
 
     @AfterEach
@@ -78,13 +86,7 @@ class OrderServiceTest {
 
     @Test
     void createOrder() {
-        orderRequestDto = OrderRequestDto.builder()
-                .restaurantId("restaurant1")
-                .orderDateTime(LocalDateTime.of(2023,12,5,14,18))
-                .orderLineDtoList(orderLineDtoList)
-                .comment("Uden birkes")
-                .customerInfoDto(customerInfoDto)
-                .build();
+
 
         OrderDto orderDto = orderService.createOrder(orderRequestDto);
 

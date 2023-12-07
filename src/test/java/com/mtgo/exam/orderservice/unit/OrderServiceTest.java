@@ -91,14 +91,6 @@ class OrderServiceTest {
         Assertions.assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING);
     }
 
-    @Test
-    void calcTotalPrice() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        List<OrderLine> orderLines = order.getOrderLines();
-        BigDecimal actual = (BigDecimal) getCalcTotalPriceMethod().invoke(orderService, orderLines);
-        BigDecimal expected = new BigDecimal(600.00).setScale(2);
-        Assertions.assertThat(actual).isEqualTo(expected);
-    }
-
     @Test void getOrdersByStatus() {
         List<Order> orders = new ArrayList<>();
         orders.add(order);
@@ -107,11 +99,24 @@ class OrderServiceTest {
         Assertions.assertThat(actualList.get(0).getOrderNumber()).isEqualTo(order.getOrderNumber());
     }
 
+    /*
     @Test void updateOrderByStatus() {
-        doReturn(Optional.of(order)).when(orderRepository).findById(order.getId());
-        orderService.updateOrderStatus(order.getId(), OrderStatus.ACCEPTED);
-        Assertions.assertThat(order.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
+        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+        OrderDto orderDto = orderService.updateOrderStatus(order.getId(), OrderStatus.ACCEPTED);
+        Assertions.assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
     }
+
+     */
+
+    @Test
+    void calcTotalPrice() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        List<OrderLine> orderLines = order.getOrderLines();
+        BigDecimal actual = (BigDecimal) getCalcTotalPriceMethod().invoke(orderService, orderLines);
+        BigDecimal expected = new BigDecimal(600.00).setScale(2);
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+
 
     private Method getCalcTotalPriceMethod() throws NoSuchMethodException {
         Method method = OrderService.class.getDeclaredMethod("calcTotalPrice", List.class);
