@@ -37,15 +37,15 @@ public class OrderController {
     }
 
     @PutMapping("/accept/${orderId}")
-    public String acceptOrder(@RequestParam int orderId) {
-        orderService.updateOrderStatus(orderId, OrderStatus.ACCEPTED);
-        return "Order has been accepted";
+    public OrderDto acceptOrder(@RequestParam int orderId) {
+        OrderDto orderDto = orderService.updateOrderStatus(orderId, OrderStatus.ACCEPTED);
+        return orderDto;
     }
 
     @PutMapping("/cancel/${orderId}")
-    public String cancelOrder(@RequestParam int orderId) {
-        orderService.updateOrderStatus(orderId, OrderStatus.CANCELLED);
-        return "Order has been accepted";
+    public OrderDto cancelOrder(@RequestParam int orderId) {
+        OrderDto orderDto = orderService.updateOrderStatus(orderId, OrderStatus.CANCELLED);
+        return orderDto;
     }
 
 

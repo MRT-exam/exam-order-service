@@ -24,16 +24,17 @@ import java.util.UUID;
 public class OrderService implements IOrderService{
 
     private final IOrderRepository orderRepository;
-    public List<Order> getOrdersByStatus(String restaurantId, OrderStatus status) {
+    public List<OrderDto> getOrdersByStatus(String restaurantId, OrderStatus status) {
         List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
-        return orders;
+        return orders.stream().map(this::mapOrderToDto).toList();
     }
 
     @Override
-    public void updateOrderStatus(int orderId, OrderStatus orderStatus){
+    public OrderDto updateOrderStatus(int orderId, OrderStatus orderStatus){
         Order order = orderRepository.findById(orderId).get();
         order.setStatus(orderStatus);
-        orderRepository.save(order);
+        order = orderRepository.save(order);
+        return this.mapOrderToDto(order);
     }
 
     @Override
@@ -58,8 +59,7 @@ public class OrderService implements IOrderService{
 
         Order savedOrder = orderRepository.save(order);
 
-        OrderDto orderDto = this.mapOrderToDto(savedOrder);
-        return orderDto;
+        return this.mapOrderToDto(savedOrder);
     }
 
     private BigDecimal calcTotalPrice(List<OrderLine> orderLines) {
@@ -124,8 +124,6 @@ public class OrderService implements IOrderService{
         orderDto.setComment(order.getComment());
         orderDto.setCustomerInfoDto(customerInfoDto);
         orderDto.setRestaurantId(order.getRestaurantId());
-
-
 
         return orderDto;
     }
