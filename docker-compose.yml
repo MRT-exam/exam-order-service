@@ -8,7 +8,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - order-service-net
+      - exam-mtgo
 
   mysqldb:
     container_name: mysqldb
@@ -22,10 +22,10 @@ services:
       MYSQL_PASSWORD: admin1234
       MYSQL_ROOT_PASSWORD: root1234
     networks:
-      - order-service-net
+      - exam-mtgo
 
   order-service-app:
-    container_name: order-service-app
+    container_name: order-service
     build:
       context: .
       dockerfile: Dockerfile
@@ -40,7 +40,7 @@ services:
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
     networks:
-      - order-service-net
+      - exam-mtgo
 
 networks:
-  order-service-net:
+  exam-mtgo:
