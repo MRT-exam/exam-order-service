@@ -30,8 +30,6 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "8081:8081"
     environment:
       MYSQL_HOST: mysqldb
       MYSQL_USER: admin
