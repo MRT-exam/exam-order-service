@@ -5,14 +5,21 @@ import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
+import com.mtgo.exam.orderservice.message.OrderPlacedMessage;
 import com.mtgo.exam.orderservice.model.Order;
+import com.mtgo.exam.orderservice.producer.OrderPlacedMessageProducer;
 import com.mtgo.exam.orderservice.repository.IOrderRepository;
 import com.mtgo.exam.orderservice.service.OrderService;
 import com.mtgo.exam.orderservice.utils.JsonReader;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.boot.test.system.OutputCaptureRule;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -23,10 +30,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
+
 @Testcontainers
 @SpringBootTest
+@ExtendWith(OutputCaptureExtension.class)
 class OrderServiceTest {
 
     @Container
@@ -38,6 +49,9 @@ class OrderServiceTest {
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
     }
+
+    @Autowired
+    OrderPlacedMessageProducer orderPlacedMessageProducer;
 
     @Autowired
     private OrderService orderService;
@@ -79,6 +93,7 @@ class OrderServiceTest {
                 .customerInfoDto(customerInfoDto)
                 .build();
     }
+
 
     @Test
     void createOrder() {
