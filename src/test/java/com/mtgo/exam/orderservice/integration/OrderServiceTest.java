@@ -37,9 +37,7 @@ import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
 @Testcontainers
 @SpringBootTest
-@ExtendWith(OutputCaptureExtension.class)
 class OrderServiceTest {
-
     @Container
     private static final MySQLContainer mySQLContainer = new MySQLContainer("mysql");
 
@@ -49,9 +47,6 @@ class OrderServiceTest {
         registry.add("spring.datasource.username", mySQLContainer::getUsername);
         registry.add("spring.datasource.password", mySQLContainer::getPassword);
     }
-
-    @Autowired
-    OrderPlacedMessageProducer orderPlacedMessageProducer;
 
     @Autowired
     private OrderService orderService;
