@@ -44,7 +44,7 @@ public class OrderController {
 
     @PutMapping("/cancel/{orderId}")
     public OrderDto cancelOrder(@PathVariable int orderId) {
-        OrderDto orderDto = orderService.updateOrderStatus(orderId, OrderStatus.CANCELLED);
+        OrderDto orderDto = orderService.updateOrderStatus(orderId, OrderStatus.CANCELED);
         return orderDto;
     }
 

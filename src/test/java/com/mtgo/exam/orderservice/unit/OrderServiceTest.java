@@ -26,17 +26,17 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
-    @Mock
-    private IOrderRepository orderRepository;
-
     @InjectMocks
     private OrderService orderService;
+    @Mock
+    private IOrderRepository orderRepository;
 
     private Order order;
     private List<OrderLineDto> orderLineDtoList;
@@ -91,13 +91,15 @@ class OrderServiceTest {
         Assertions.assertThat(actualList.get(0).getOrderNumber()).isEqualTo(order.getOrderNumber());
     }
 
-    /*
-    @Test void updateOrderByStatus() {
-        when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
-        OrderDto orderDto = orderService.updateOrderStatus(order.getId(), OrderStatus.ACCEPTED);
+
+    @Test
+    void updateOrderByStatus() {
+        int orderId = order.getId();
+        when(orderRepository.getById(orderId)).thenReturn(order);
+        when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
+        OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.ACCEPTED);
         Assertions.assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
     }
-     */
 
     @Test
     void calcTotalPrice() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

@@ -3,13 +3,11 @@ package com.mtgo.exam.orderservice.integration;
 import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
-import com.mtgo.exam.orderservice.enums.OrderStatus;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.repository.IOrderRepository;
 import com.mtgo.exam.orderservice.utils.JsonReader;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +93,6 @@ public class OrderControllerTest {
                 .build();
     }
 
-
     @Test
     public void placeOrder() {
         given()
@@ -121,6 +118,6 @@ public class OrderControllerTest {
                 .when()
                     .put("/cancel/1")
                 .then()
-                    .body("status", equalTo("CANCELLED"));
+                    .body("status", equalTo("CANCELED"));
     }
 }

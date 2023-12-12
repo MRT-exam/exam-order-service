@@ -8,8 +8,8 @@ public enum OrderStatus {
     PENDING("PENDING"),
     @JsonProperty("ACCEPTED")
     ACCEPTED("ACCEPTED"),
-    @JsonProperty("CANCELLED")
-    CANCELLED("CANCELLED"),
+    @JsonProperty("CANCELED")
+    CANCELED("CANCELED"),
     @JsonProperty("CLAIMED")
     CLAIMED("CLAIMED"),
     @JsonProperty("DELIVERED")
