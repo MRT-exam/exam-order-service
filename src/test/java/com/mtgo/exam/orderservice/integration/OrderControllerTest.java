@@ -4,10 +4,15 @@ import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
+import com.mtgo.exam.orderservice.model.Order;
+import com.mtgo.exam.orderservice.repository.IOrderRepository;
+import com.mtgo.exam.orderservice.utils.JsonReader;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -52,13 +57,17 @@ public class OrderControllerTest {
     @LocalServerPort
     private Integer port;
 
+    @Autowired
+    IOrderRepository orderRepository;
     List<OrderLineDto> orderLineDtoList;
     CustomerInfoDto customerInfoDto;
     OrderRequestDto orderRequestDto;
+    Order order;
     @BeforeEach
     void setup() {
         RestAssured.baseURI = "http://localhost:" + port + "/api/orders";
-
+        order = JsonReader.readOrderFromJson();
+        orderRepository.save(order);
         orderLineDtoList = new ArrayList<>();
         orderLineDtoList.add(
                 OrderLineDto.builder()
@@ -86,17 +95,32 @@ public class OrderControllerTest {
                 .build();
     }
 
+
     @Test
-
     public void placeOrder() {
-
-                given()
-                    .contentType(ContentType.JSON)
-                    .body(orderRequestDto)
+        given()
+                .contentType(ContentType.JSON)
+                .body(orderRequestDto)
                 .when()
                     .post("/new")
                 .then()
-                    .body("id", equalTo(1))
+                    .body("id", equalTo(2))
                     .body("status", equalTo("PENDING"));
+    }
+    @Test
+    public void acceptOrder() {
+        given()
+                .when()
+                    .put("/accept/2")
+                .then()
+                    .body("status", equalTo("ACCEPTED"));
+    }
+    @Test
+    public void cancelOrder() {
+        given()
+                .when()
+                    .put("/cancel/1")
+                .then()
+                    .body("status", equalTo("CANCELLED"));
     }
 }
