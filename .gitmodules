@@ -1,0 +1,3 @@
+[submodule "exam-grpc-interface"]
+	path = exam-grpc-interface
+	url = https://github.com/MRT-exam/exam-grpc-interface
