@@ -1,4 +1,4 @@
-package com.mtgo.exam.orderservice.service.grpc;
+package com.mtgo.exam.orderservice.grpc.service;
 
 import com.mtgo.exam.grpcinterface.*;
 import com.mtgo.exam.orderservice.model.Order;
