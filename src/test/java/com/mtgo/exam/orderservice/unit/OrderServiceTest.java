@@ -95,7 +95,11 @@ class OrderServiceTest {
     @Test
     void updateOrderByStatus() {
         int orderId = order.getId();
+<<<<<<< HEAD
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
+=======
+        when(orderRepository.findById(orderId)).thenReturn(Optional.ofNullable(order));
+>>>>>>> dev
         when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
         OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.ACCEPTED);
         Assertions.assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.ACCEPTED);

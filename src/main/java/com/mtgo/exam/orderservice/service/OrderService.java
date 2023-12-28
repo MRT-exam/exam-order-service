@@ -9,13 +9,14 @@ import com.mtgo.exam.orderservice.model.CustomerInfo;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.model.OrderLine;
 import com.mtgo.exam.orderservice.repository.IOrderRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -28,15 +29,20 @@ public class OrderService implements IOrderService{
         List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
         return orders.stream().map(this::mapOrderToDto).toList();
     }
-
+    @Transactional
     @Override
     public OrderDto updateOrderStatus(int orderId, OrderStatus orderStatus){
+<<<<<<< HEAD
         Order order = orderRepository.findById(orderId).get();
+=======
+        Order order = orderRepository.findById(orderId).orElseThrow();
+>>>>>>> dev
         order.setStatus(orderStatus);
         Order updatedOrder = orderRepository.save(order);
         return this.mapOrderToDto(updatedOrder);
     }
 
+    @Transactional
     @Override
     public OrderDto createOrder(OrderRequestDto orderRequestDto) {
         Order order = new Order();

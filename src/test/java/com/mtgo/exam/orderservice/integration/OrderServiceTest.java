@@ -12,6 +12,7 @@ import com.mtgo.exam.orderservice.repository.IOrderRepository;
 import com.mtgo.exam.orderservice.service.OrderService;
 import com.mtgo.exam.orderservice.utils.JsonReader;
 import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.test.system.OutputCaptureRule;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -58,6 +61,7 @@ class OrderServiceTest {
     List<OrderLineDto> orderLineDtoList;
     CustomerInfoDto customerInfoDto;
     Order order;
+    @Transactional
     @BeforeEach
     void setup() {
         order = JsonReader.readOrderFromJson();
@@ -88,25 +92,32 @@ class OrderServiceTest {
                 .customerInfoDto(customerInfoDto)
                 .build();
     }
-
-
-    @Test
-    void createOrder() {
-        OrderDto orderDto = orderService.createOrder(orderRequestDto);
-
-        assertNotNull(orderDto);
-        assertEquals(OrderStatus.PENDING, orderDto.getStatus());
+    @AfterEach
+    void cleanup() {
+        orderRepository.deleteAll();
     }
 
-    @Test
-    void updateOrderShouldChangeStatusToAccepted() {
-        OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.ACCEPTED);
-        assertEquals(OrderStatus.ACCEPTED, orderDto.getStatus());
-    }
-
+    @Transactional
+    @Rollback
     @Test
     void updateOrderShouldChangeStatusToCanceled() {
         OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.CANCELED);
         assertEquals(OrderStatus.CANCELED, orderDto.getStatus());
+    }
+
+    @Transactional
+    @Rollback
+    @Test
+    void updateOrderShouldChangeStatusToAccepted() {
+        OrderDto orderDto = orderService.updateOrderStatus(4, OrderStatus.ACCEPTED);
+        assertEquals(OrderStatus.ACCEPTED, orderDto.getStatus());
+    }
+    @Transactional
+    @Rollback
+    @Test
+    void createOrder() {
+        OrderDto orderDto = orderService.createOrder(orderRequestDto);
+        assertNotNull(orderDto);
+        assertEquals(OrderStatus.PENDING, orderDto.getStatus());
     }
 }
