@@ -1,5 +1,5 @@
 package com.mtgo.exam.orderservice.grpc.service;
-
+/*
 import com.mtgo.exam.grpcinterface.*;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.model.OrderLine;
@@ -55,3 +55,5 @@ public class OrderGrpcServiceImpl extends OrderServiceGrpc.OrderServiceImplBase 
         responseObserver.onCompleted();
     }
 }
+
+ */
