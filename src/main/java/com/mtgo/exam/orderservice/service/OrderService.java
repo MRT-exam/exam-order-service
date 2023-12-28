@@ -32,11 +32,8 @@ public class OrderService implements IOrderService{
     @Transactional
     @Override
     public OrderDto updateOrderStatus(int orderId, OrderStatus orderStatus){
-<<<<<<< HEAD
-        Order order = orderRepository.findById(orderId).get();
-=======
+
         Order order = orderRepository.findById(orderId).orElseThrow();
->>>>>>> dev
         order.setStatus(orderStatus);
         Order updatedOrder = orderRepository.save(order);
         return this.mapOrderToDto(updatedOrder);
