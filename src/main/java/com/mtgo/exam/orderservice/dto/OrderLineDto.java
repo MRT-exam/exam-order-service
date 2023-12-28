@@ -1,5 +1,6 @@
 package com.mtgo.exam.orderservice.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,8 +14,12 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class OrderLineDto implements Serializable {
+    @NotNull
     private String itemId;
+    @NotNull
     private String itemName;
+    @NotNull
     private BigDecimal price;
+    @NotNull
     private int quantity;
 }

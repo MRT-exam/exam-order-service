@@ -5,6 +5,7 @@ import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
+import com.mtgo.exam.orderservice.exception.error.OrderNotFoundException;
 import com.mtgo.exam.orderservice.model.CustomerInfo;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.model.OrderLine;
@@ -33,7 +34,9 @@ public class OrderService implements IOrderService{
     @Override
     public OrderDto updateOrderStatus(int orderId, OrderStatus orderStatus){
 
-        Order order = orderRepository.findById(orderId).orElseThrow();
+        Order order = orderRepository.findById(orderId).orElseThrow(() ->
+                new OrderNotFoundException("Order with id: " + orderId + " could not be found"));
+
         order.setStatus(orderStatus);
         Order updatedOrder = orderRepository.save(order);
         return this.mapOrderToDto(updatedOrder);

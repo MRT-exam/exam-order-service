@@ -6,8 +6,11 @@ import com.mtgo.exam.orderservice.producer.OrderPlacedMessageProducer;
 import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderRequestDto;
 import com.mtgo.exam.orderservice.service.OrderService;
+import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,7 +24,10 @@ public class OrderController {
     private final OrderPlacedMessageProducer orderPlacedMessageProducer;
 
     @PostMapping("/new")
-    public OrderDto placeOrder(@RequestBody OrderRequestDto orderRequestDto) {
+    public ResponseEntity<OrderDto> placeOrder(@RequestBody OrderRequestDto orderRequestDto) {
+        if (orderRequestDto == null) {
+            throw new BadRequestException("Request body cannot be null");
+        }
 
         OrderDto orderDto = orderService.createOrder(orderRequestDto);
 
@@ -33,7 +39,7 @@ public class OrderController {
 
         orderPlacedMessageProducer.sendOrderPlacedMessage(orderPlacedMessage);
 
-        return orderDto;
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 
     @PutMapping("/accept/{orderId}")
