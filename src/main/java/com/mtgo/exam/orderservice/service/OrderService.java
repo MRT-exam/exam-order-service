@@ -3,7 +3,7 @@ package com.mtgo.exam.orderservice.service;
 import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
-import com.mtgo.exam.orderservice.dto.OrderRequestDto;
+import com.mtgo.exam.orderservice.dto.PlaceOrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
 import com.mtgo.exam.orderservice.exception.error.OrderNotFoundException;
 import com.mtgo.exam.orderservice.model.CustomerInfo;
@@ -26,10 +26,17 @@ import java.util.UUID;
 public class OrderService implements IOrderService{
 
     private final IOrderRepository orderRepository;
+
+    @Transactional
+    @Override
     public List<OrderDto> getOrdersByStatus(String restaurantId, OrderStatus status) {
         List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
+        if (orders.isEmpty()) {
+            throw new OrderNotFoundException("No orders with status " + status.getCode() + "could be found for restaurant " + restaurantId);
+        }
         return orders.stream().map(this::mapOrderToDto).toList();
     }
+
     @Transactional
     @Override
     public OrderDto updateOrderStatus(int orderId, OrderStatus orderStatus){
@@ -44,23 +51,23 @@ public class OrderService implements IOrderService{
 
     @Transactional
     @Override
-    public OrderDto createOrder(OrderRequestDto orderRequestDto) {
+    public OrderDto createOrder(PlaceOrderRequestDto placeOrderRequestDto) {
         Order order = new Order();
 
-        List<OrderLine> orderLines = orderRequestDto.getOrderLineDtoList()
+        List<OrderLine> orderLines = placeOrderRequestDto.getOrderLineDtoList()
                         .stream()
                         .map(this::mapOrderLineFromDto)
                         .toList();
 
-        CustomerInfo customerInfo = this.mapCustomerInfoFromDto(orderRequestDto.getCustomerInfoDto());
+        CustomerInfo customerInfo = this.mapCustomerInfoFromDto(placeOrderRequestDto.getCustomerInfoDto());
 
         order.setOrderNumber(UUID.randomUUID().toString());
         order.setStatus(OrderStatus.PENDING);
-        order.setOrderDateTime(orderRequestDto.getOrderDateTime());
-        order.setRestaurantId(orderRequestDto.getRestaurantId());
+        order.setOrderDateTime(placeOrderRequestDto.getOrderDateTime());
+        order.setRestaurantId(placeOrderRequestDto.getRestaurantId());
         order.setOrderLines(orderLines);
         order.setTotalPrice(this.calcTotalPrice(orderLines));
-        order.setComment(orderRequestDto.getComment());
+        order.setComment(placeOrderRequestDto.getComment());
         order.setCustomerInfo(customerInfo);
 
         Order savedOrder = orderRepository.save(order);

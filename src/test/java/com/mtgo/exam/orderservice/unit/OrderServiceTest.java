@@ -4,7 +4,7 @@ package com.mtgo.exam.orderservice.unit;
 import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
-import com.mtgo.exam.orderservice.dto.OrderRequestDto;
+import com.mtgo.exam.orderservice.dto.PlaceOrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.model.OrderLine;
@@ -67,7 +67,7 @@ class OrderServiceTest {
 
     @Test
     void createOrder() {
-        OrderRequestDto orderRequestDto = OrderRequestDto.builder()
+        PlaceOrderRequestDto placeOrderRequestDto = PlaceOrderRequestDto.builder()
                 .restaurantId("restaurant1")
                 .orderDateTime(LocalDateTime.of(2023, 12,4,15,30))
                 .orderLineDtoList(orderLineDtoList)
@@ -77,7 +77,7 @@ class OrderServiceTest {
 
         when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
 
-        OrderDto savedOrder = orderService.createOrder(orderRequestDto);
+        OrderDto savedOrder = orderService.createOrder(placeOrderRequestDto);
         Assertions.assertThat(savedOrder).isNotNull();
         Assertions.assertThat(savedOrder.getId()).isEqualTo(1);
         Assertions.assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING);

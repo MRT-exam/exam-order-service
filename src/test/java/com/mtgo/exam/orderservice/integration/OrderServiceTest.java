@@ -3,24 +3,17 @@ package com.mtgo.exam.orderservice.integration;
 import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
-import com.mtgo.exam.orderservice.dto.OrderRequestDto;
+import com.mtgo.exam.orderservice.dto.PlaceOrderRequestDto;
 import com.mtgo.exam.orderservice.enums.OrderStatus;
-import com.mtgo.exam.orderservice.message.OrderPlacedMessage;
 import com.mtgo.exam.orderservice.model.Order;
-import com.mtgo.exam.orderservice.producer.OrderPlacedMessageProducer;
 import com.mtgo.exam.orderservice.repository.IOrderRepository;
 import com.mtgo.exam.orderservice.service.OrderService;
 import com.mtgo.exam.orderservice.utils.JsonReader;
-import org.junit.Rule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.system.CapturedOutput;
-import org.springframework.boot.test.system.OutputCaptureExtension;
-import org.springframework.boot.test.system.OutputCaptureRule;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -33,8 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;
 
@@ -57,7 +49,7 @@ class OrderServiceTest {
     @Autowired
     private IOrderRepository orderRepository;
 
-    OrderRequestDto orderRequestDto;
+    PlaceOrderRequestDto placeOrderRequestDto;
     List<OrderLineDto> orderLineDtoList;
     CustomerInfoDto customerInfoDto;
     Order order;
@@ -84,7 +76,7 @@ class OrderServiceTest {
                 .address("Elm Street 4")
                 .build();
 
-        orderRequestDto = OrderRequestDto.builder()
+        placeOrderRequestDto = PlaceOrderRequestDto.builder()
                 .restaurantId("restaurant1")
                 .orderDateTime(LocalDateTime.of(2023,12,5,14,18))
                 .orderLineDtoList(orderLineDtoList)
@@ -116,7 +108,7 @@ class OrderServiceTest {
     @Rollback
     @Test
     void createOrder() {
-        OrderDto orderDto = orderService.createOrder(orderRequestDto);
+        OrderDto orderDto = orderService.createOrder(placeOrderRequestDto);
         assertNotNull(orderDto);
         assertEquals(OrderStatus.PENDING, orderDto.getStatus());
     }

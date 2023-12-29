@@ -5,5 +5,7 @@ public class ErrorMessages {
 
     public static final String ORDER_NOT_FOUND_ERROR = "Order could not be found";
 
+    public static final String INVALID_REQUEST_ERROR = "Invalid request";
+
 
 }

@@ -2,7 +2,7 @@ package com.mtgo.exam.orderservice.integration;
 
 import com.mtgo.exam.orderservice.dto.CustomerInfoDto;
 import com.mtgo.exam.orderservice.dto.OrderLineDto;
-import com.mtgo.exam.orderservice.dto.OrderRequestDto;
+import com.mtgo.exam.orderservice.dto.PlaceOrderRequestDto;
 import com.mtgo.exam.orderservice.model.Order;
 import com.mtgo.exam.orderservice.repository.IOrderRepository;
 import com.mtgo.exam.orderservice.utils.JsonReader;
@@ -10,11 +10,8 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.system.CapturedOutput;
-import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -62,7 +59,7 @@ public class OrderControllerTest {
     IOrderRepository orderRepository;
     List<OrderLineDto> orderLineDtoList;
     CustomerInfoDto customerInfoDto;
-    OrderRequestDto orderRequestDto;
+    PlaceOrderRequestDto placeOrderRequestDto;
     Order order;
     @BeforeEach
     void setup() {
@@ -87,7 +84,7 @@ public class OrderControllerTest {
                 .address("Elm Street 4")
                 .build();
 
-        orderRequestDto = OrderRequestDto.builder()
+        placeOrderRequestDto = PlaceOrderRequestDto.builder()
                 .restaurantId("restaurant1")
                 .orderDateTime(LocalDateTime.of(2023,12,5,14,18))
                 .orderLineDtoList(orderLineDtoList)
@@ -100,7 +97,7 @@ public class OrderControllerTest {
     public void placeOrder() {
         given()
                 .contentType(ContentType.JSON)
-                .body(orderRequestDto)
+                .body(placeOrderRequestDto)
                 .when()
                     .post("/new")
                 .then()

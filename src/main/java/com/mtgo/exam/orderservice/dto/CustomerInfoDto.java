@@ -1,7 +1,6 @@
 package com.mtgo.exam.orderservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +17,14 @@ public class CustomerInfoDto implements Serializable {
     @NotNull
     private int userId;
     @NotBlank
+    @NotNull
     private String firstName;
     @NotBlank
+    @NotNull
     private String lastName;
-    @NotEmpty
+    @NotNull
     private int phone;
     @NotBlank
+    @NotNull
     private String address;
 }
