@@ -1,0 +1,30 @@
+type Order {
+    id: Int!
+    orderNumber: String!
+    status: String!
+    orderDateTime: String!
+    orderLines: [OrderLine!]!
+    totalPrice: Int!
+    comment: String
+    customerInfo: CustomerInfo!
+    restaurantId: String!
+}
+
+type OrderLine {
+    itemId: String!
+    itemName: String!
+    price: Int!
+    quantity: Int!
+}
+
+type CustomerInfo {
+    firstName: String!
+    lastName: String!
+    phone: String!
+    address: String!
+}
+
+type Query {
+    getOrderById(orderId: Int!): Order
+    getAcceptedOrders(restaurantId: String!): [Order!]!
+}

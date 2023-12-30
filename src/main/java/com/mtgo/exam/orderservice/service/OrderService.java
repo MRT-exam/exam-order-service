@@ -50,6 +50,12 @@ public class OrderService implements IOrderService{
     }
 
     @Transactional
+    public OrderDto getOrderById(int orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order with id: " + orderId + " could not be found"));
+        return mapOrderToDto(order);
+    }
+
+    @Transactional
     @Override
     public OrderDto createOrder(PlaceOrderRequestDto placeOrderRequestDto) {
         Order order = new Order();
