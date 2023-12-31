@@ -21,7 +21,7 @@ import java.util.List;
 public class OrderDto implements Serializable {
     private int id;
     private String orderNumber;
-    private OrderStatus status;
+    private String status;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")

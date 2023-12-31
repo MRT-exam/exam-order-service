@@ -94,7 +94,7 @@ class OrderServiceTest {
     @Test
     void updateOrderShouldChangeStatusToCanceled() {
         OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.CANCELED);
-        assertEquals(OrderStatus.CANCELED, orderDto.getStatus());
+        assertEquals(OrderStatus.CANCELED.getCode(), orderDto.getStatus());
     }
 
     @Transactional
@@ -102,7 +102,7 @@ class OrderServiceTest {
     @Test
     void updateOrderShouldChangeStatusToAccepted() {
         OrderDto orderDto = orderService.updateOrderStatus(4, OrderStatus.ACCEPTED);
-        assertEquals(OrderStatus.ACCEPTED, orderDto.getStatus());
+        assertEquals(OrderStatus.ACCEPTED.getCode(), orderDto.getStatus());
     }
     @Transactional
     @Rollback
@@ -110,6 +110,6 @@ class OrderServiceTest {
     void createOrder() {
         OrderDto orderDto = orderService.createOrder(placeOrderRequestDto);
         assertNotNull(orderDto);
-        assertEquals(OrderStatus.PENDING, orderDto.getStatus());
+        assertEquals(OrderStatus.PENDING.getCode(), orderDto.getStatus());
     }
 }

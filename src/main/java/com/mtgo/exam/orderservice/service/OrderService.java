@@ -141,7 +141,7 @@ public class OrderService implements IOrderService{
 
         orderDto.setId(order.getId());
         orderDto.setOrderNumber(order.getOrderNumber());
-        orderDto.setStatus(order.getStatus());
+        orderDto.setStatus(order.getStatus().getCode());
         orderDto.setOrderDateTime(order.getOrderDateTime());
         orderDto.setOrderLineDtoList(orderLineDtoList);
         orderDto.setTotalPrice(this.calcTotalPrice(order.getOrderLines()));
