@@ -80,7 +80,7 @@ class OrderServiceTest {
         OrderDto savedOrder = orderService.createOrder(placeOrderRequestDto);
         Assertions.assertThat(savedOrder).isNotNull();
         Assertions.assertThat(savedOrder.getId()).isEqualTo(1);
-        Assertions.assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING);
+        Assertions.assertThat(savedOrder.getStatus()).isEqualTo(OrderStatus.PENDING.getCode());
     }
 
     @Test void getOrdersByStatus() {
@@ -98,7 +98,7 @@ class OrderServiceTest {
         when(orderRepository.findById(orderId)).thenReturn(Optional.ofNullable(order));
         when(orderRepository.save((Mockito.any(Order.class)))).thenReturn(order);
         OrderDto orderDto = orderService.updateOrderStatus(1, OrderStatus.ACCEPTED);
-        Assertions.assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
+        Assertions.assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.ACCEPTED.getCode());
     }
 
     @Test
