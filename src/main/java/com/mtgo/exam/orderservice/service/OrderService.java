@@ -61,6 +61,9 @@ public class OrderService implements IOrderService{
     public OrderDto createOrder(PlaceOrderRequestDto placeOrderRequestDto) {
         Order order = new Order();
 
+        // TODO: call restaurant-service via GraphQL and get menuItems by restaurantId
+        // Verify that the OrderLines in the request match the menuItems from restaurant-service
+
         List<OrderLine> orderLines = placeOrderRequestDto.getOrderLineDtoList()
                         .stream()
                         .map(this::mapOrderLineFromDto)
