@@ -5,6 +5,7 @@ import com.mtgo.exam.orderservice.enums.OrderStatus;
 import com.mtgo.exam.orderservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +23,8 @@ public class GraphController {
     }
 
     @QueryMapping
-    public OrderDto getOrderById(int orderId) {
+    public OrderDto getOrderById(@Argument int orderId) {
+
         return orderService.getOrderById(orderId);
     }
 
